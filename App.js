@@ -11,6 +11,7 @@ import ConcoctStackScreen from './screens/concoctScreen/ConcoctStackScreen';
 export default function App() {
   const { dark, theme, toggle } = React.useContext(ThemeContext);
   const Tab = createBottomTabNavigator();
+
   return (
     <ThemeProvider>
       <NavigationContainer>

@@ -53,7 +53,7 @@ const DrinksScreen = ({ route }) => {
     return null;
   }
 
-  const onDrinksPresed = (drink) => {
+  const onDrinksPressed = (drink) => {
     navigation.navigate("DrinkDetailScreen",{ drinkName: drink.drinkName ,drinkID: drink.drinkID })
   }
 
@@ -66,7 +66,7 @@ const DrinksScreen = ({ route }) => {
           {drinksArray.map((drinks, i) => {
             return (
               <Cell
-                onPress={() => { onDrinksPresed(drinks) }}
+                onPress={() => { onDrinksPressed(drinks) }}
                 key={i}
                 contentContainerStyle={{ height: 100, backgroundColor: theme.backgroundCard }}
                 cellContentView={

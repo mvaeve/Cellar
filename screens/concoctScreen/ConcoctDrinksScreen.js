@@ -22,28 +22,43 @@ const ConcoctDrinksScreen = ({ route }) => {
         finalCombi = firstCombi.filter(o1 => d3.some(o3 => o1.id === o3.id));
 
     }
-    console.log(finalCombi)
+
+    const onDrinksPressed = (drink) => {
+        navigation.navigate("DrinkDetailScreen", { drinkName: drink.name, drinkID: drink.id })
+    }
+
 
     return (
         <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
             <CustomAppbar title="Concocted Drinks" />
+
+            <View style={styles.tagContainer}>
+                {ings.map((ingredient, i) => {
+                    return (
+                        <View key={i} style={[styles.tag, {
+                            backgroundColor: theme.iconColor,
+                            borderColor: theme.color,
+                        }]}>
+                            <Text style={[styles.tagText, { color: theme.color }]}> {ingredient}</Text>
+                        </View>
+                    )
+                })}
+            </View>
+
+
+
 
             <ScrollView style={styles.scrollView}>
                 <TableView>
                     {finalCombi.length === 0 ?
                         <View style={styles.infoContainer}>
                             <Text style={[styles.infoText, { color: theme.color }]}>There are no drinks of this combination</Text>
-                            {ings.map((ingredient,i) => {
-                                return(
-                                    <Text key={i} style={[styles.infoText, { color: theme.color }]}>• {ingredient}</Text>
-                                )
-                            })}
                         </View>
                         :
                         finalCombi.map((drinks, i) => {
                             return (
                                 <Cell
-                                    onPress={() => { console.log("PRESSED") }}
+                                    onPress={() => { onDrinksPressed(drinks) }}
                                     key={i}
                                     contentContainerStyle={{ height: 100, backgroundColor: theme.backgroundCard }}
                                     cellContentView={
@@ -120,11 +135,34 @@ const styles = StyleSheet.create({
     infoContainer: {
         justifyContent: 'center',
         alignItems: 'center',
-       
+        marginTop:20,
+
     },
     infoText:
     {
         fontSize: 20,
-    }
+    },
+    tagContainer: {
+        flexDirection: 'row',
+        marginLeft: 10,
+        marginVertical:5
+    },
+    tag: {
+        alignSelf: 'flex-start',
+        paddingHorizontal: 15,
+        paddingVertical: 4,
+        borderWidth: 1,
+        borderRadius: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
+        marginHorizontal:8
+
+    },
+    tagText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        right:2,
+    },
 })
 export default ConcoctDrinksScreen

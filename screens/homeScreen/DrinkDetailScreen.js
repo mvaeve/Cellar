@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useCallback } from "react"
-import { StyleSheet, Text, View, Image, Animated, ScrollView } from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 import { ThemeContext } from "../../themes/theme-context";
 import CustomAppbar from '../components/CustomAppbar';
 import { Utils } from "../../helpers";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SplashScreen from 'expo-splash-screen';
-
+import Ionicons from '@expo/vector-icons/Ionicons';
 const DrinkDetailScreen = ({ route }) => {
    
     const { drinkID, drinkName } = route.params;
@@ -14,9 +15,19 @@ const DrinkDetailScreen = ({ route }) => {
     const [drinkDetail, setDrinkDetail] = useState({});
     const [drinkIngredients, setDrinkIngredients] = useState([]);
     const [appIsReady, setAppIsReady] = useState(false);
+    const [fav, setFav] = useState(false)
 
     useEffect(() => {
+        Utils.getData(drinkID).then((data) => {
+            if (data == null){
+             setFav(false)
+            } else {
+             setFav(true)
+            }
+         }) 
+    },[fav]);
 
+    useEffect(() => {
         const getDrinkDetails = async () => {
             const endpoint = "lookup.php?i=" + drinkID;
             const res = await Utils.getApi(endpoint, {}, true);
@@ -50,6 +61,19 @@ const DrinkDetailScreen = ({ route }) => {
         getDrinkDetails();
 
     }, []);
+
+    const favPressed = () => {
+        Utils.getData(drinkID).then((data) => {
+            if (data == null){
+                Utils.storeData(drinkID, drinkDetail);
+                setFav(true)
+            } else {
+                AsyncStorage.removeItem(drinkID);
+                setFav(false)
+            }
+         }) 
+    
+    }
     const onLayoutRootView = useCallback(async () => {
         if (appIsReady) {
             await SplashScreen.hideAsync();
@@ -59,7 +83,6 @@ const DrinkDetailScreen = ({ route }) => {
     if (!appIsReady) {
         return null;
     }
-    console.log(drinkIngredients)
     return (
         <View style={[styles.container, { backgroundColor: theme.backgroundColor }]} onLayout={onLayoutRootView}>
             <CustomAppbar title={drinkDetail.drinkName} />
@@ -84,6 +107,14 @@ const DrinkDetailScreen = ({ route }) => {
 
             <Text style={[styles.instructionTitle, { color: theme.color }]}>Instructions</Text>
             <Text style={[styles.instructionText, { color: theme.color }]}>{drinkDetail.drinkInstruction}</Text>
+
+            <Ionicons  
+            style={styles.fav}
+            name={fav === true? "heart-sharp": "heart-outline" }
+            size="36" 
+            color={fav === true? "red": "white" }
+            onPress={() => {favPressed()}} />
+
         </View>
     )
 }
@@ -145,6 +176,11 @@ const styles = StyleSheet.create({
     tagText: {
         fontSize: 18,
         fontWeight: 'bold'
+    }, 
+    fav:{
+        position:'absolute',
+        left:340, 
+        top:55
     }
 });
 

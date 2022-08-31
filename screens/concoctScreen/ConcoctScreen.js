@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useCallback } from "react"
 import { StyleSheet, Text, View, ScrollView, FlatList, Pressable, ImageBackground, Alert } from "react-native";
 import { ThemeContext } from "../../themes/theme-context";
 import { Utils } from "../../helpers";
@@ -6,11 +6,13 @@ import { useNavigation } from '@react-navigation/core';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import CustomSpinner from "../components/CustomSpinner";
 import { useIsFocused } from "@react-navigation/native";
+import * as SplashScreen from 'expo-splash-screen';
 
 const ConcoctScreen = () => {
     const { dark, theme, toggle } = React.useContext(ThemeContext);
     const navigation = useNavigation();
 
+    const [appIsReady, setAppIsReady] = useState(false);
     const [ingredientsArray, setIngredientsArray] = useState([]);
     const [ingredientPressTime, setIngredientPressTime] = useState(0);
     const [ingredientPressName, setIngredientPressName] = useState("");
@@ -38,6 +40,7 @@ const ConcoctScreen = () => {
 
                 ]);
             });
+            setAppIsReady(true);
         }
         //reset
         setIngredientPressTime(0)
@@ -45,6 +48,7 @@ const ConcoctScreen = () => {
         getIngredientsList();
         setSpinner(false)
         setDisable(false)
+        setAppIsReady(false);
 
 
     }, [isFocused]);
@@ -137,8 +141,18 @@ const ConcoctScreen = () => {
         }
     }
 
+    const onLayoutRootView = useCallback(async () => {
+        if (appIsReady) {
+            await SplashScreen.hideAsync();
+        }
+    }, [appIsReady]);
+
+    if (!appIsReady) {
+        return null;
+    }
+
     return (
-        <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
+        <View style={[styles.container, { backgroundColor: theme.backgroundColor }]} onLayout={onLayoutRootView}>
             <ImageBackground
                 source={require("../../assets/image/barBackground.jpeg")}
                 resizeMode="cover"
