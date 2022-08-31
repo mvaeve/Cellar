@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import { ThemeContext } from "../../themes/theme-context";
 import { Utils } from "../../helpers";
-import { useNavigation } from '@react-navigation/core';
+import { useNavigation } from "@react-navigation/native";
 
 const CellarHome = () => {
     const { dark, theme, toggle } = React.useContext(ThemeContext);

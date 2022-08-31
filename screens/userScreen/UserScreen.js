@@ -4,8 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { ThemeContext } from "../../themes/theme-context";
 import { TableView, Cell } from 'react-native-tableview-simple'
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { useIsFocused } from "@react-navigation/native";
-import { useNavigation } from '@react-navigation/core';
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 
 //shall be favourites screen for now
 
@@ -20,16 +19,29 @@ const UserScreen = () => {
   useEffect(() => {
     const storeFav = async () => {
       const keys = await AsyncStorage.getAllKeys();
+      var i = 0;
+      while (i < keys.length) {
+        if (!onlyNumbers(keys[i])) {
+          keys.splice(i, 1);
+        } else {
+          ++i;
+        }
+      }
       const value = await AsyncStorage.multiGet(keys);
       value.map((fav) => {
-        setFavourites((prevFav) => [...prevFav, JSON.parse(fav[1])]);
-      })
-
-    }
+        let parsedFav = JSON.parse(fav[1]);
+        setFavourites((prevFav) => [...prevFav, parsedFav]);
+      });
+    };
     setFavourites([])
     storeFav()
+    console.log(favourites)
 
   }, [state, isFocused])
+  
+  const onlyNumbers = (str) => {
+    return /^[0-9]+$/.test(str);
+  };
 
   const favPressed = (drink) => {
     Alert.alert(
@@ -50,8 +62,8 @@ const UserScreen = () => {
       ]
     );
   }
-  const onDrinksPressed = (drink) => {
-    navigation.navigate("DrinkDetailScreen",{ drinkName: drink.drinkName ,drinkID: drink.drinkID })
+  const onDrinksPressed = (drinks) => {
+    navigation.navigate("DrinkDetailScreen",{ drinkName: drinks.drinkName ,drinkID: drinks.drinkID })
   }
   return (
     <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
@@ -141,18 +153,13 @@ const styles = StyleSheet.create({
     flex: 1
   },
 
-  cellPrice: {
-    justifyContent: 'center',
-  },
+  
   titleText: {
     marginVertical: 10,
     fontSize: 22,
     flexShrink: 1,
   },
-  priceText: {
-    fontSize: 16,
 
-  },
   fav: {
     top: 30,
     left: 8

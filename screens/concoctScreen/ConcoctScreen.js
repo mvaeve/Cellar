@@ -2,10 +2,9 @@ import React, { useEffect, useState, useCallback } from "react"
 import { StyleSheet, Text, View, ScrollView, FlatList, Pressable, ImageBackground, Alert } from "react-native";
 import { ThemeContext } from "../../themes/theme-context";
 import { Utils } from "../../helpers";
-import { useNavigation } from '@react-navigation/core';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import CustomSpinner from "../components/CustomSpinner";
-import { useIsFocused } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import * as SplashScreen from 'expo-splash-screen';
 
 const ConcoctScreen = () => {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
 import { ThemeContext } from "../../themes/theme-context";
-import { useNavigation } from '@react-navigation/core';
+import { useNavigation } from "@react-navigation/native";
 import { TableView, Cell } from 'react-native-tableview-simple'
 import CustomAppbar from "../components/CustomAppbar";
 
@@ -23,8 +23,8 @@ const ConcoctDrinksScreen = ({ route }) => {
 
     }
 
-    const onDrinksPressed = (drink) => {
-        navigation.navigate("DrinkDetailScreen", { drinkName: drink.name, drinkID: drink.id })
+    const onDrinksPressed = (drinks) => {
+        navigation.navigate("DrinkDetailScreen", { drinkName: drinks.name, drinkID: drinks.id })
     }
 
 
@@ -120,17 +120,10 @@ const styles = StyleSheet.create({
         flex: 1
     },
 
-    cellPrice: {
-        justifyContent: 'center',
-    },
     titleText: {
         marginVertical: 10,
         fontSize: 22,
         flexShrink: 1,
-    },
-    priceText: {
-        fontSize: 16,
-
     },
     infoContainer: {
         justifyContent: 'center',

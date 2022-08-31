@@ -5,7 +5,7 @@ import CustomAppbar from '../components/CustomAppbar';
 import { Utils } from "../../helpers";
 import { TableView, Cell } from 'react-native-tableview-simple'
 import * as SplashScreen from 'expo-splash-screen';
-import { useNavigation } from '@react-navigation/core';
+import { useNavigation } from "@react-navigation/native";
 
 const DrinksScreen = ({ route }) => {
   const { category } = route.params;
@@ -53,8 +53,8 @@ const DrinksScreen = ({ route }) => {
     return null;
   }
 
-  const onDrinksPressed = (drink) => {
-    navigation.navigate("DrinkDetailScreen",{ drinkName: drink.drinkName ,drinkID: drink.drinkID })
+  const onDrinksPressed = (drinks) => {
+    navigation.navigate("DrinkDetailScreen",{ drinkName: drinks.drinkName ,drinkID: drinks.drinkID })
   }
 
   return (
@@ -128,17 +128,10 @@ const styles = StyleSheet.create({
     flex: 1
   },
 
-  cellPrice: {
-    justifyContent: 'center',
-  },
   titleText: {
     marginVertical: 10,
     fontSize: 22,
     flexShrink: 1,
-  },
-  priceText: {
-    fontSize: 16,
-
   },
 })
 

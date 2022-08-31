@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Platform } from "react-native";
 import { Appbar } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { ThemeContext } from "../../themes/theme-context";
