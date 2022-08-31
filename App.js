@@ -6,7 +6,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import React from 'react';
 import HomeStackScreen from './screens/homeScreen/HomeStackScreen';
 import UserStackScreen from './screens/userScreen/UserStackScreen';
-
+import ConcoctStackScreen from './screens/concoctScreen/ConcoctStackScreen';
 
 export default function App() {
   const { dark, theme, toggle } = React.useContext(ThemeContext);
@@ -25,6 +25,8 @@ export default function App() {
                   : 'beer-outline';
               } else if (route.name === 'User') {
                 iconName = focused ? 'person-circle' : 'person-circle-outline';
+              } else if (route.name === 'Concoct') {
+                iconName = focused ? 'color-wand' : 'color-wand-outline';
               }
   
               // You can return any component that you like here!
@@ -38,6 +40,7 @@ export default function App() {
           
           })}>
           <Tab.Screen name="Home" component={HomeStackScreen} />
+          <Tab.Screen name="Concoct" component={ConcoctStackScreen} />
           <Tab.Screen name="User" component={UserStackScreen} />
         </Tab.Navigator>
       </NavigationContainer>

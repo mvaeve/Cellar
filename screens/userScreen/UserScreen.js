@@ -1,6 +1,8 @@
 import { View, Text } from 'react-native'
 import React from 'react'
-import CustomSkeleton from '../components/CustomSkeleton'
+
+//shall be favourites screen for now
+
 const UserScreen = () => {
   return (
  <View></View>

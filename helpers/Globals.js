@@ -8,8 +8,8 @@ module.exports = {
       grayiconColor: "gray",
       red: "#ff2462",
       green: '#00b558',
-      redTrans: "#ff246250",
-      greenTrans: '#00b55850'
+      redTrans: "#ff246290",
+      greenTrans: '#00b55890'
       
     },
   };
